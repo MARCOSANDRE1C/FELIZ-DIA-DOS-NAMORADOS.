@@ -27,14 +27,19 @@ overflow:hidden;
 color:white;
 }
 
-/* CENTRAL */
-.center{
+/* TELAS */
+.screen{
 height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
 padding:20px;
+display:none;
+}
+
+.active{
+display:flex;
 }
 
 /* CARD */
@@ -46,23 +51,23 @@ padding:45px;
 border-radius:30px;
 max-width:750px;
 width:100%;
-animation:fadeIn .8s ease;
+animation:fadeIn .6s ease;
 }
 
 h1{
-font-size:2.6rem;
+font-size:2.5rem;
 margin-bottom:10px;
 }
 
 p{
 font-size:1.1rem;
-opacity:.9;
 line-height:1.7;
+opacity:.9;
 }
 
-/* BOTÕES */
+/* BOTÃO */
 button{
-margin-top:25px;
+margin-top:20px;
 padding:14px 28px;
 border:none;
 border-radius:50px;
@@ -77,14 +82,11 @@ button:hover{
 transform:scale(1.05);
 }
 
-/* ETAPAS */
-.step{
-display:none;
-}
-
-/* FINAL */
-.final{
-display:none;
+/* CONTADOR */
+.timer{
+margin-top:20px;
+font-size:14px;
+opacity:.9;
 }
 
 /* CORAÇÕES */
@@ -97,20 +99,14 @@ animation:fall linear infinite;
 pointer-events:none;
 }
 
-/* ANIMAÇÕES */
 @keyframes fadeIn{
-from{opacity:0;transform:translateY(25px);}
+from{opacity:0;transform:translateY(20px);}
 to{opacity:1;transform:translateY(0);}
 }
 
 @keyframes fall{
 from{transform:translateY(-100px);}
 to{transform:translateY(110vh);}
-}
-
-@keyframes pop{
-0%{transform:scale(.7);opacity:0;}
-100%{transform:scale(1);opacity:1;}
 }
 
 /* RESPONSIVO */
@@ -124,128 +120,85 @@ h1{font-size:2rem;}
 
 <body>
 
-<!-- INÍCIO -->
-<div class="center step" id="start" style="display:flex;">
+<!-- START -->
+<div class="screen active" id="start">
 <div class="card">
 <h1>💖 Para Você</h1>
-<p>Eu preparei algo especial… mas você precisa ir descobrindo aos poucos.</p>
-<button onclick="nextStep(1)">Começar ❤️</button>
+<p>Eu preparei algo especial… clique para começar.</p>
+<button onclick="start()">Começar ❤️</button>
 </div>
 </div>
 
-<!-- ETAPA 1 -->
-<div class="center step" id="step1">
+<!-- STEP 1 -->
+<div class="screen" id="step1">
 <div class="card">
 <h1>💌 Primeiro segredo</h1>
-<p>Desde que você chegou na minha vida, tudo ficou mais leve e bonito.</p>
-<button onclick="nextStep(2)">Continuar ➜</button>
+<p>Desde que você entrou na minha vida, tudo ficou melhor.</p>
+<button onclick="next(2)">Continuar ➜</button>
 </div>
 </div>
 
-<!-- ETAPA 2 -->
-<div class="center step" id="step2">
+<!-- STEP 2 -->
+<div class="screen" id="step2">
 <div class="card">
 <h1>💖 Segundo segredo</h1>
-<p>Você me ensinou a ser alguém melhor todos os dias, sem nem perceber.</p>
-<button onclick="nextStep(3)">Continuar ➜</button>
+<p>Você me faz querer ser uma pessoa melhor todos os dias.</p>
+<button onclick="next(3)">Continuar ➜</button>
 </div>
 </div>
 
-<!-- ETAPA 3 -->
-<div class="center step" id="step3">
+<!-- STEP 3 -->
+<div class="screen" id="step3">
 <div class="card">
 <h1>🌹 Terceiro segredo</h1>
-<p>Cada momento com você é o mais importante da minha vida.</p>
-<button onclick="nextStep(4)">Ver final ❤️</button>
+<p>Cada momento com você é o mais especial da minha vida.</p>
+<button onclick="next(4)">Ver final ❤️</button>
 </div>
 </div>
 
 <!-- FINAL -->
-<div class="center step final" id="final">
+<div class="screen" id="final">
 <div class="card">
 <h1>❤️ Feliz Dia dos Namorados ❤️</h1>
 
 <p>
 Você é a melhor coisa que já aconteceu na minha vida.<br><br>
-
-Eu te amo mais do que palavras podem explicar.<br><br>
-
-E eu escolho você todos os dias. 💖
+Eu te amo infinitamente 💖
 </p>
 
-<button onclick="surprise()">Abrir surpresa 🎁</button>
+<div class="timer" id="timer">Carregando tempo juntos...</div>
 
-<div id="surpriseText" style="display:none;margin-top:20px;font-size:1.2rem;">
-💖 Você é meu presente favorito nesse mundo inteiro 💖
-</div>
+<button onclick="alert('💖 Você é meu mundo inteiro 💖')">
+Abrir surpresa 🎁
+</button>
 
 </div>
 </div>
 
 <script>
 
-function nextStep(step){
+const startDate = new Date("2023-06-12"); // 🔥 ALTERE AQUI
 
-document.querySelectorAll(".step").forEach(e=>{
-e.style.display="none";
+function show(id){
+document.querySelectorAll(".screen").forEach(s=>{
+s.classList.remove("active");
 });
+document.getElementById(id).classList.add("active");
+}
 
-document.getElementById("step"+step)?.style.display="flex";
-document.getElementById("final").style.display="none";
+function start(){
+show("step1");
+}
 
-if(step===4){
-document.getElementById("final").style.display="flex";
+function next(step){
+if(step === 4){
+show("final");
+}else{
+show("step"+step);
 }
 }
 
-// SURPRESA FINAL
-function surprise(){
-document.getElementById("surpriseText").style.display="block";
-}
-
-// CORAÇÕES
-for(let i=0;i<25;i++){
-
-let heart=document.createElement("div");
-heart.classList.add("heart");
-heart.innerHTML="❤";
-
-heart.style.left=Math.random()*100+"vw";
-heart.style.animationDuration=(Math.random()*10+6)+"s";
-heart.style.fontSize=(Math.random()*18+10)+"px";
-
-document.body.appendChild(heart);
-
-}
-
-</script>
-<!-- CONTADOR ROMÂNTICO FIXO -->
-<div id="love-timer"></div>
-
-<style>
-#love-timer{
-position:fixed;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-background:rgba(0,0,0,.35);
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,255,255,.2);
-padding:12px 18px;
-border-radius:18px;
-color:white;
-font-family:'Poppins',sans-serif;
-font-size:14px;
-text-align:center;
-z-index:9999;
-max-width:90%;
-box-shadow:0 10px 25px rgba(0,0,0,.3);
-}
-</style>
-
-<script>
-const startDate = new Date("2024-11-03"); // 🔥 ALTERE AQUI
-
+/* CONTADOR */
 function updateTimer(){
 
 const now = new Date();
@@ -256,21 +209,34 @@ const hours = Math.floor((diff/(1000*60*60))%24);
 const minutes = Math.floor((diff/(1000*60))%60);
 const seconds = Math.floor((diff/1000)%60);
 
-const el = document.getElementById("love-timer");
+const el = document.getElementById("timer");
 
 if(el){
 el.innerHTML =
-`💖 Estamos juntos há: <br>
-<strong>${days}</strong>d
-<strong>${hours}</strong>h
-<strong>${minutes}</strong>m
-<strong>${seconds}</strong>s 💖`;
+`⏳ Estamos juntos há: ${days} dias ${hours}h ${minutes}m ${seconds}s`;
 }
 
 }
 
-updateTimer();
 setInterval(updateTimer,1000);
+updateTimer();
+
+/* CORAÇÕES */
+for(let i=0;i<25;i++){
+
+let heart=document.createElement("div");
+heart.classList.add("heart");
+heart.innerHTML="❤";
+
+heart.style.left=Math.random()*100+"vw";
+heart.style.animationDuration=(Math.random()*10+6)+"s";
+heart.style.fontSize=(Math.random()*16+10)+"px";
+
+document.body.appendChild(heart);
+
+}
+
 </script>
+
 </body>
 </html>
