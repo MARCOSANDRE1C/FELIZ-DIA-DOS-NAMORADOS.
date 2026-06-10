@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Dia dos Namorados ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#ff4b91,#ff8fb1,#ffd1dc);
+    overflow:hidden;
+    color:white;
+}
+
+.container{
+    position:relative;
+    z-index:2;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+}
+
+h1{
+    font-size:4rem;
+    text-shadow:0 0 15px rgba(255,255,255,.5);
+    animation:fadeIn 2s ease;
+}
+
+.subtitle{
+    font-size:1.5rem;
+    margin-top:15px;
+    animation:fadeIn 3s ease;
+}
+
+.message{
+    max-width:700px;
+    margin-top:30px;
+    font-size:1.2rem;
+    line-height:1.8;
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(8px);
+    padding:25px;
+    border-radius:20px;
+    animation:fadeIn 4s ease;
+}
+
+.counter{
+    margin-top:30px;
+    font-size:1.4rem;
+    font-weight:bold;
+}
+
+.btn{
+    margin-top:35px;
+    padding:15px 30px;
+    border:none;
+    border-radius:50px;
+    background:white;
+    color:#ff4b91;
+    font-size:1.1rem;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:scale(1.1);
+}
+
+.heart{
+    position:absolute;
+    color:#fff;
+    animation:float linear infinite;
+    opacity:.7;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(100vh);
+    }
+    to{
+        transform:translateY(-120px);
+    }
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.popup{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    justify-content:center;
+    align-items:center;
+    z-index:100;
+}
+
+.popup-content{
+    background:white;
+    color:#ff4b91;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    max-width:500px;
+}
+
+.popup-content h2{
+    margin-bottom:15px;
+}
+
+.close{
+    margin-top:20px;
+    padding:10px 20px;
+    border:none;
+    border-radius:30px;
+    background:#ff4b91;
+    color:white;
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div id="hearts"></div>
+
+<div class="container">
+    <h1>❤️ Feliz Dia dos Namorados ❤️</h1>
+
+    <p class="subtitle">
+        Para a pessoa mais especial da minha vida
+    </p>
+
+    <div class="message">
+        Cada momento ao seu lado transforma dias comuns em lembranças
+        inesquecíveis. Obrigado(a) por fazer parte da minha história,
+        pelos sorrisos, pelo carinho e por todo amor que compartilhamos.
+        Que este seja apenas mais um capítulo da nossa linda jornada.
+        ❤️
+    </div>
+
+    <div class="counter">
+        Juntos há:
+        <div id="timer"></div>
+    </div>
+
+    <button class="btn" onclick="showMessage()">
+        Clique para uma surpresa ✨
+    </button>
+</div>
+
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <h2>Eu Te Amo ❤️</h2>
+        <p>
+            Você é meu lugar favorito no mundo.
+            Feliz Dia dos Namorados!
+        </p>
+        <button class="close" onclick="closePopup()">Fechar</button>
+    </div>
+</div>
+
+<script>
+// ALTERE PARA A DATA DO INÍCIO DO RELACIONAMENTO
+const startDate = new Date("2023-06-12");
+
+function updateTimer() {
+    const now = new Date();
+    const diff = now - startDate;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+
+    document.getElementById("timer").innerHTML =
+        `${days} dias, ${hours} horas e ${minutes} minutos`;
+}
+
+setInterval(updateTimer, 1000);
+updateTimer();
+
+function showMessage(){
+    document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup(){
+    document.getElementById("popup").style.display = "none";
+}
+
+// Corações animados
+const heartsContainer = document.getElementById("hearts");
+
+for(let i=0;i<40;i++){
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤";
+
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.fontSize = (Math.random()*25+15)+"px";
+    heart.style.animationDuration = (Math.random()*8+5)+"s";
+    heart.style.animationDelay = Math.random()*5+"s";
+
+    heartsContainer.appendChild(heart);
+}
+</script>
+
+</body>
+</html>
